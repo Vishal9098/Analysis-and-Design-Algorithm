@@ -1,37 +1,58 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-int a[6] = {45,7,23,65,56,12};
-int i = 0, j = 5;
-int MaxMin(int i, int j, int max, int min){ 
-    if(i == j){
-        return max = min = a[i];
-    }
-    else if(i = j - 1){ 
-        
-        if(a[i] < a[j]){
-        max = a[j];
-        min = a[i];
-        }
-            else{
-                max = a[i];
-                min = a[j];
-            }
-}
-    else{
-        int max1 = 0, min1 = 0;
-        int mid = (i+j)/2;
-        MaxMin(i,mid,max,min);
-        MaxMin(mid + 1, j, max1, min1);
+struct Pair {
+	int min;
+	int max;
+};
 
-        if (max < max1){
-            return max = max1;
-        }
-        if(min > min1){
-            return min = min1;
-        }
-    }
+struct Pair getMinMax(int arr[], int n) {
+	struct Pair minmax;	
+	int i;
+	
+	if (n % 2 == 0) {
+		if (arr[0] > arr[1]) {
+			minmax.max = arr[0];
+			minmax.min = arr[1];
+		}
+		else {
+			minmax.min = arr[0];
+			minmax.max = arr[1];
+		}
+		i = 2;
+	}
+	else {
+		minmax.min = arr[0];
+		minmax.max = arr[0];
+		i = 1;
+	}
+	
+	while (i < n - 1) {		
+		if (arr[i] > arr[i + 1]){
+			if(arr[i] > minmax.max)	
+				minmax.max = arr[i];
+				
+			if(arr[i + 1] < minmax.min)		
+				minmax.min = arr[i + 1];	
+		}
+		else {
+			if (arr[i + 1] > minmax.max)	
+				minmax.max = arr[i + 1];
+				
+			if (arr[i] < minmax.min)		
+				minmax.min = arr[i];	
+		}
+		i += 2;
+	}		
+	return minmax;
 }
-int main(){
 
-}  
+int main() {
+	int arr[] = { 1000, 11, 445, 1, 330, 3000 };
+	int arr_size = 6;
+	
+	Pair minmax = getMinMax(arr, arr_size);
+	
+	cout << endl << "Minimum element is "<< minmax.min << endl;
+	cout << "Maximum element is "<< minmax.max;
+}
